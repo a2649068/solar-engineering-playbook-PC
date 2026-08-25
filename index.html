@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="工務處工作準則桌機版：施工前、施工中與施工後工作指引及參考表單">
+  <title>工務處工作準則｜桌機版</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">工</span><div><p class="eyebrow">ENGINEERING OPERATIONS · DESKTOP</p><h1>工務處工作準則</h1></div></div>
+    <div class="header-actions"><span class="desktop-badge">桌機／筆電版</span><a class="source-link" href="https://docs.google.com/spreadsheets/d/1gBMufgeZN5NfxECtjKewOIs8gn62aR02M7CRxchHTWQ/edit" target="_blank" rel="noopener noreferrer">開啟原始試算表 ↗</a></div>
+  </header>
+  <div class="workspace">
+    <aside class="sidebar" aria-label="步驟快速導覽">
+      <div class="sidebar-title"><span>快速導覽</span><small>共 21 個步驟</small></div>
+      <nav id="stepNav" class="step-nav"></nav>
+      <button id="backToTop" class="back-top" type="button">↑ 回到頁首</button>
+    </aside>
+    <main>
+      <section class="intro"><div><p class="kicker">專案執行指引</p><h2>施工準備、現場執行、完工交付<br>三階段並列快速對照。</h2></div><p class="intro-copy">針對 1280px 以上螢幕設計。可用左側編號快速跳轉；藍色文字可開啟 BPM、WEBISO、Google Drive 或政府網站參考資料。</p></section>
+      <section class="control-bar" aria-label="內容篩選">
+        <label class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="搜尋工作內容、表單編號或關鍵字…" autocomplete="off"></label>
+        <nav class="stage-tabs" aria-label="施工階段"><button class="active" data-stage="all">三階段</button><button data-stage="before">施工前</button><button data-stage="during">施工中</button><button data-stage="after">施工後</button></nav>
+        <label class="toggle"><input id="linksOnly" type="checkbox"><span>只顯示含連結項目</span></label>
+        <span id="resultCount" class="result-count"></span>
+      </section>
+      <section class="guideline-shell">
+        <div class="table-head"><div class="step-head">步驟</div><div class="stage-head before"><span>01</span>案場施工前</div><div class="stage-head during"><span>02</span>案場施工中</div><div class="stage-head after"><span>03</span>案場施工後</div></div>
+        <div id="guidelineRows" class="guideline-rows"></div>
+        <div id="emptyState" class="empty-state" hidden>找不到符合條件的工作項目。</div>
+      </section>
+      <footer><span>工務處工作準則・桌機／筆電版</span><span>資料來源：最新版 Google 試算表</span></footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
