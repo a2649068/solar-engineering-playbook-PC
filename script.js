@@ -196,3 +196,129 @@ window.addEventListener("pageshow",()=>{syncStageButtons();render();const y=Numb
 syncStageButtons();
 render();
 requestAnimationFrame(()=>window.scrollTo(0,Number(savedState.scrollY)||0));
+
+/* 案場電纜報廢處理標準 V1 */
+
+const cableStandards = {
+  pv: {
+    criteria: [
+      "長度過短：單卷／單盤剩餘長度小於 300 米。",
+      "包裝受損：外軸木盤／塑膠盤散架、結構破損無法正常放線。",
+      "線材受損：外皮或絕緣層有明顯撞傷、刮痕、壓扁或銅線外露。"
+    ],
+    reasons: [
+      "DC 串列（String）一串需數十至上百米，施工嚴禁中間出現接線點。",
+      "低於 300 米在新案場極難調度，回倉僅為佔空間的無效庫存。"
+    ]
+  },
+
+  xlpe: {
+    criteria: [
+      "單芯剩餘長度小於 40 米。",
+      "多芯剩餘長度小於 20 米。"
+    ],
+    reasons: [
+      "系統多為三相四線制（3Φ4W），40 米 ÷ 4，單線僅剩 10 米（扣除留長度以後，可用僅剩 8～9 米）。",
+      "設備（逆變器至併網箱／變壓器）間距大於 10 米，短線增加中間接線的風險。"
+    ]
+  },
+
+  hv: {
+    criteria: [
+      "單條剩餘長度小於 50 米。"
+    ],
+    reasons: [
+      "高壓配電走線採三相配置，需要考量彎曲半徑、預埋管道及高壓電纜頭（Terminator）製作預留。",
+      "加上盤間距離後總長容易超過 35～40 米，小於 50 米無法完成一整組三相高壓跳線連通。"
+    ]
+  }
+};
+
+const cableDisposal = {
+  large: [
+    "由總務部指定回收廠商派車處理。",
+    "事先與總務部協調回收作業，工務同仁不用經手回收價金部分。",
+    "注意事項：請機電承攬廠商將 DC 線退出線軸，AC 線集中並注意存放保全。"
+  ],
+  small: [
+    "由總務部指定回收廠商派車處理。",
+    "事先與總務部協調回收作業，工務同仁不用經手回收價金部分。",
+    "例外處理：經由工務與總務部 Pendy 討論協同處理，或者經過協調，由工務載運處理，以一台轎車載滿為限。"
+  ]
+};
+
+const cablePanel = document.getElementById("cablePanel");
+const cableOverlay = document.getElementById("cableOverlay");
+const cableResult = document.getElementById("cableResult");
+const cableOpen = document.getElementById("cableOpen");
+const cableClose = document.getElementById("cableClose");
+
+function cableList(items) {
+  return "<ol>" +
+    items.map(item => `<li>${item}</li>`).join("") +
+    "</ol>";
+}
+
+function renderCableStandard(type) {
+  const data = cableStandards[type];
+  if (!data) return;
+
+  cableResult.innerHTML = `
+    <section class="cable-section">
+      <h3>一、不回倉標準（符合任一即適用）</h3>
+      ${cableList(data.criteria)}
+    </section>
+
+    <section class="cable-section">
+      <h3>二、不回倉原因簡述</h3>
+      ${cableList(data.reasons)}
+    </section>
+
+    <section class="cable-section">
+      <h3>三、後續處置方式</h3>
+      <h4>大於 500kW 案場</h4>
+      ${cableList(cableDisposal.large)}
+      <h4>500kW（含）以下案場</h4>
+      ${cableList(cableDisposal.small)}
+    </section>
+  `;
+}
+
+function openCablePanel() {
+  cableOverlay.hidden = false;
+  cablePanel.classList.add("open");
+  cablePanel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("cable-open");
+  cableClose.focus();
+}
+
+function closeCablePanel() {
+  cablePanel.classList.remove("open");
+  cablePanel.setAttribute("aria-hidden", "true");
+  cableOverlay.hidden = true;
+  document.body.classList.remove("cable-open");
+  cableOpen.focus();
+}
+
+cableOpen.addEventListener("click", openCablePanel);
+cableClose.addEventListener("click", closeCablePanel);
+cableOverlay.addEventListener("click", closeCablePanel);
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" &&
+      cablePanel.classList.contains("open")) {
+    closeCablePanel();
+  }
+});
+
+document.querySelectorAll(
+  'input[name="cableType"]'
+).forEach(input => {
+  input.addEventListener("change", () => {
+    renderCableStandard(input.value);
+    document.querySelector(".cable-body").scrollTop = 0;
+  });
+});
+
+// 預設顯示太陽能電纜
+renderCableStandard("pv");
