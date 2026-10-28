@@ -22,6 +22,9 @@
       <section class="intro"><div><p class="kicker">專案執行指引</p><h2>施工準備、現場執行、完工交付<br>三階段並列快速對照。</h2></div><p class="intro-copy">針對 1280px 以上螢幕設計。可用左側編號快速跳轉；藍色文字可開啟 BPM、WEBISO、Google Drive 或政府網站參考資料。</p></section>
       <section class="control-bar" aria-label="內容篩選">
         <label class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="搜尋工作內容、表單編號或關鍵字…" autocomplete="off"></label>
+<button id="cableOpen" class="special-btn" type="button">
+  專項作業標準
+</button>
         <nav class="stage-tabs" aria-label="施工階段"><button class="active" data-stage="all">三階段</button><button data-stage="before">施工前</button><button data-stage="during">施工中</button><button data-stage="after">施工後</button></nav>
         <label class="toggle"><input id="linksOnly" type="checkbox"><span>只顯示含連結項目</span></label>
         <span id="resultCount" class="result-count"></span>
@@ -34,6 +37,48 @@
       <footer><span>工務處工作準則・桌機／筆電版</span><span>資料來源：最新版 Google 試算表</span></footer>
     </main>
   </div>
-  <script src="script.js"></script>
+  
+<div id="cableOverlay" class="cable-overlay" hidden></div>
+
+<aside id="cablePanel" class="cable-panel"
+      aria-label="案場電纜報廢處理標準"
+      aria-hidden="true">
+
+  <div class="cable-header">
+    <div>
+      <small>工務處／專項作業標準 V1</small>
+      <h2>案場電纜報廢處理標準</h2>
+    </div>
+    <button id="cableClose" type="button"
+            aria-label="關閉查詢視窗">✕</button>
+  </div>
+
+  <div class="cable-body">
+    <h3>選擇電纜種類</h3>
+
+    <div class="cable-options">
+      <label>
+        <input type="radio" name="cableType"
+               value="pv" checked>
+        太陽能電纜 PV（4～6mm²）
+      </label>
+
+      <label>
+        <input type="radio" name="cableType"
+               value="xlpe">
+        XLPE/PVC 電力電纜（8～300mm²）
+      </label>
+
+      <label>
+        <input type="radio" name="cableType"
+               value="hv">
+        25kV（含）以上高壓電纜
+      </label>
+    </div>
+
+    <div id="cableResult" aria-live="polite"></div>
+  </div>
+</aside>
+<script src="script.js"></script>
 </body>
 </html>
